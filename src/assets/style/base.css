@@ -1,0 +1,419 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #00b4aa;
+  text-decoration: none;
+}
+
+.ell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav {
+  width: 100%;
+  padding: 10px
+}
+
+.nav a {
+  display: block;
+  height: 36px;
+  line-height: 36px;
+  font-size: 16px;
+  color: #333;
+  padding-left: 30px;
+  margin-bottom: 6px;
+  border-radius: 4px
+}
+
+.nav .on a {
+  background: #dcf6f5;
+  color: #00b4aa
+}
+
+.nav a:hover {
+  background: #dcf6f5;
+  color: #00b4aa
+}
+
+.nav a i {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15px
+}
+
+.nav i[class*=icon-nav-] {
+  width: 24px;
+  height: 24px;
+  background-image: url("../icon-nav.png");
+  background-repeat: no-repeat;
+}
+
+.icon-nav-chengji {
+  background-position: -200px 0
+}
+
+.icon-nav-xueqing {
+  background-position: -175px 0
+}
+
+.icon-nav-error {
+  background-position: -150px 0
+}
+
+.icon-nav-jtbeike {
+  background-position: -50px 0
+}
+
+.icon-nav-check {
+  background-position: -325px 0
+}
+
+.icon-nav-contacts {
+  background-position: -350px 0
+}
+
+.icon-nav-member {
+  background-position: -300px 0
+}
+
+.icon-nav-shouke {
+  background-position: -75px 0
+}
+
+.icon-nav-setting {
+  background-position: -225px 0
+}
+
+.icon-nav-data {
+  background-position: -250px 0
+}
+
+.icon-nav-school {
+  background-position: -275px 0
+}
+
+.icon-nav-ziyuan {
+  background-position: 0 0
+}
+
+.icon-nav-homework {
+  background-position: -100px 0
+}
+
+.icon-nav-beike {
+  background-position: -25px 0
+}
+
+.icon-nav-zujuan {
+  background-position: -125px 0
+}
+
+.icon-nav-jiaoyuju {
+  background-position: -375px 0
+}
+
+.icon-nav-uesrmanage {
+  background-position: -400px 0
+}
+
+.icon-nav-xiaquschool {
+  background-position: -425px 0
+}
+
+.icon-nav-zydh {
+  background-position: -450px 0
+}
+
+.icon-nav-jcfx {
+  background-position: -475px 0
+}
+
+.icon-nav-xbtkgl {
+  background-position: -50px -25px
+}
+
+.icon-nav-xbzygl {
+  background-position: -25px -25px
+}
+
+.icon-nav-zyjssk {
+  background-position: -75px -25px
+}
+
+.icon-nav-wangyue {
+  background-position: -100px -25px
+}
+
+ul, li {
+  list-style: none;
+}
+
+.ico {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  background: url("../fileicon.png") no-repeat
+}
+
+.ico.icon-word {
+  background-position: -10px -10px
+}
+
+.ico.icon-ppt {
+  background-position: -68px -10px
+}
+
+.ico.icon-pdf {
+  background-position: -126px -10px
+}
+
+.ico.icon-txt {
+  background-position: -184px -10px
+}
+
+.ico.icon-excel {
+  background-position: -242px -10px
+}
+
+.ico.icon-img {
+  background-position: -300px -10px
+}
+
+.ico.icon-video {
+  background-position: -358px -10px
+}
+
+.ico.icon-music {
+  background-position: -242px -68px
+}
+
+.ico.icon-package {
+  background-position: -126px -68px
+}
+
+.ico.icon-exam {
+  background-position: -300px -68px
+}
+
+.ico.icon-micro {
+  background-position: -358px -68px
+}
+
+.ico-md {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background: url("../fileicon.png") no-repeat
+}
+
+.ico-md.icon-word {
+  background-position: -10px -136px
+}
+
+.ico-md.icon-ppt {
+  background-position: -52px -136px
+}
+
+.ico-md.icon-pdf {
+  background-position: -94px -136px
+}
+
+.ico-md.icon-txt {
+  background-position: -136px -136px
+}
+
+.ico-md.icon-excel {
+  background-position: -178px -136px
+}
+
+.ico-md.icon-img {
+  background-position: -220px -136px
+}
+
+.ico-md.icon-video {
+  background-position: -262px -136px
+}
+
+.ico-md.icon-music {
+  background-position: -178px -178px
+}
+
+.ico-md.icon-package {
+  background-position: -94px -178px
+}
+
+.ico-md.icon-exam {
+  background-position: -220px -178px
+}
+
+.ico-md.icon-micro {
+  background-position: -262px -178px
+}
+
+.ico-sm {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url("../fileicon.png") no-repeat
+}
+
+.ico-sm.icon-word {
+  background-position: -10px -230px
+}
+
+.ico-sm.icon-ppt {
+  background-position: -36px -230px
+}
+
+.ico-sm.icon-pdf {
+  background-position: -62px -230px
+}
+
+.ico-sm.icon-txt {
+  background-position: -88px -230px
+}
+
+.ico-sm.icon-excel {
+  background-position: -114px -230px
+}
+
+.ico-sm.icon-img {
+  background-position: -140px -230px
+}
+
+.ico-sm.icon-video {
+  background-position: -166px -230px
+}
+
+.ico-sm.icon-music {
+  background-position: -114px -256px
+}
+
+.ico-sm.icon-package {
+  background-position: -62px -256px
+}
+
+.ico-sm.icon-exam {
+  background-position: -140px -256px
+}
+
+.ico-sm.icon-micro {
+  background-position: -166px -256px
+}
+
+.resource-list {
+  padding: 10px 20px
+}
+
+.resource-list li {
+  position: relative;
+  padding-left: 38px;
+  background: rgba(255, 255, 255, .6);
+  margin-bottom: 2px;
+  border: 1px solid transparent
+}
+
+.resource-list li .checkbox-div {
+  position: absolute;
+  width: 38px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-right: 2px solid #f2f2f2
+}
+
+.resource-list li .checkbox-div label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.resource-list .info {
+  position: relative;
+  padding: 16px 350px 16px 16px
+}
+
+.resource-list .info .ico {
+  float: left;
+  margin-right: 16px
+}
+
+.resource-list .info .name {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 5px
+}
+
+.resource-list .oper-rename {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  font-size: 14px;
+  background: #00b4aa;
+  color: #fff;
+  border-radius: 2px;
+  text-align: center
+}
+
+.resource-list textarea {
+  width: 90%;
+  height: 50px;
+  resize: none
+}
+
+.resource-list .info .oper {
+  position: absolute;
+  height: 20px;
+  right: 0;
+  top: 50%;
+  margin-top: -10px;
+  padding-right: 16px
+}
+
+.resource-list .info .oper a {
+  margin-right: 15px
+}
+
+.resource-list .oper-del {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: 0;
+  top: 0;
+  background: #00b4aa;
+  color: #fff;
+  text-align: center;
+  display: none
+}
+
+.resource-list li:hover {
+  border-color: #9ae5e0;
+  background: #fff
+}
+
+.resource-list li.on {
+  background: #fff
+}
+
+.resource-list li:hover .oper-del {
+  display: block
+}
+
+.resource-list .oper-edit:hover {
+  opacity: .7
+}
