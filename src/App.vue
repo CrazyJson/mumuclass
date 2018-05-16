@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="wrapper">
+    <div class="wrapper" v-loading="loading">
       <div class="el-header">
         <m-header :moduleName="headerprop.moduleName" :pageTabs="headerprop.pageTabs"></m-header>
       </div>
@@ -33,7 +33,7 @@
               <li v-for="item in resourceLlist">
                 <div class="checkbox-div"><el-checkbox v-model="checked"></el-checkbox></div>
                 <div class="info">
-                  <span class="ico icon-word"></span>
+                  <span class="ico" :class="fileTypeIco(item.fileType)"></span>
                   <div class="fluid">
                     <p>
                       <a href="#" class="name">{{item.name}}</a>
@@ -41,8 +41,8 @@
                     </p>
                     <p class="t-grey">
                       <span class="mr30">{{item.categoryName}}</span>
-                      <span class="mr30">{{item.fileSize/1024}} KB</span>
-                      <span class="mr30">{{item.uploadTime}}</span>
+                      <span class="mr30">{{item.fileSize | calcFileSize}}</span>
+                      <span class="mr30">{{$formatDate(item.uploadTime,"YYYY-MM-DD")}}</span>
                     </p>
                     <div class="oper">
                       <a href="#"><i class="el-icon-star-on"></i>取消收藏</a>
@@ -58,7 +58,7 @@
             </ul>
             <el-pagination
               @current-change="handleCurrentChange"
-              :current-page="page.currentPage"
+              :current-page.sync="page.currentPage"
               layout="total, prev, pager, next"
               :total="page.totalCount">
             </el-pagination>
@@ -104,28 +104,46 @@
         page:{
           totalCount:0,
           currentPage:1
-        }
+        },
+        loading:true
       };
     },
     components: {
       mHeader
     },
     methods: {
+      fileTypeIco:function (fileType) {
+        let icoType = '';
+        switch (fileType){
+          case 'T001':
+            icoType='ppt';
+            break;
+          case 'T002':
+            icoType='word';
+            break;
+          default:
+            icoType='png';
+            break;
+        }
+        return 'icon-'+icoType;
+      },
       toggleMaterialList(){
         this.isMaterialListShow = this.isMaterialListShow == false;
       },
       changeMaterial(bookId, subjectId){
         let _this = this;
-        api.getLessonList({bookId: bookId}).then(function (response) {
-          if (response.code == 2000) {
-            _this.lessonData = response.data.bookDirList;
-            _this.subject = response.data.subjectName;
-            _this.book = response.data.name;
-            _this.isMaterialListShow = false;
-          } else {
-            alert(response.msg)
+        this.loading= true;
+        this.getLessonData(bookId).then(function (data) {
+          let first = _this.lessonData[0];
+          if(first.children && first.children.length>0){
+            _this.userSelected.dirId =first.children[0].id;
+          }else{
+            _this.userSelected.dirId =first.id;
           }
+           _this.getMyResource(1);
         });
+        this.isMaterialListShow = false;
+        this.userSelected.bookId = bookId;
       },
       getUserSelectedLesson(){
         let _this = this;
@@ -136,17 +154,20 @@
           })
         })
       },
-      getLessonData(){
+      getLessonData(bookId){
         let _this = this;
-        api.getLessonList({bookId: _this.userSelected.bookId}).then(function (response) {
-          if (response.code == 2000) {
-            _this.lessonData = response.data.bookDirList;
-            _this.subject = response.data.subjectName;
-            _this.book = response.data.name;
-          } else {
-            alert(response.msg)
-          }
-        })
+        return new Promise(function (resolve, reject) {
+          api.getLessonList({bookId: bookId}).then(function (response) {
+            if (response.code == 2000) {
+              _this.lessonData = response.data.bookDirList;
+              _this.subject = response.data.subjectName;
+              _this.book = response.data.name;
+              resolve(response);
+            } else {
+              alert(response.msg)
+            }
+          })
+        });
       },
       getsubjectWithClass(){
         let _this = this;
@@ -159,22 +180,34 @@
         api.getMyResource({dirId: _this.userSelected.dirId,category: 0,searchName:'',rows: 10,page:pageNo}).then(function (response) {
           _this.resourceLlist = response.rows;
           _this.page.totalCount = response.paginator.totalCount;
+          _this.loading= false;
         })
       },
       lessonNodeClick(data){
         this.userSelected.dirId = data.id;
-        this.getMyResource(this.page.currentPage);
         this.page.currentPage = 1;
+        this.loading= true;
+        this.getMyResource(this.page.currentPage);
+
       },
       handleCurrentChange(val) {
         this.getMyResource(val);
       }
 
     },
+    filters:{
+      calcFileSize:function (size) {
+        if(size < 1024*1024){
+          return (size / 1024).toFixed(1)+'KB';
+        }else{
+          return (size / (1024*1024)).toFixed(2)+'M';
+        }
+      }
+    },
     mounted () {
       let _this = this;
       _this.getUserSelectedLesson().then(function () {
-        _this.getLessonData();
+        _this.getLessonData(_this.userSelected.bookId);
         _this.getsubjectWithClass();
         _this.getMyResource(_this.page.currentPage)
       });
