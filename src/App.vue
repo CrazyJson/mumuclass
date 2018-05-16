@@ -58,8 +58,9 @@
             </ul>
             <el-pagination
               @current-change="handleCurrentChange"
+              :current-page="page.currentPage"
               layout="total, prev, pager, next"
-              :total="resourcePaginator.totalCount">
+              :total="page.totalCount">
             </el-pagination>
           </div>
           <div v-show="resourceLlist.length==0">暂无数据</div>
@@ -100,7 +101,10 @@
         isMaterialListShow: false,
         checked: false,
         resourceLlist:[],
-        resourcePaginator:[]
+        page:{
+          totalCount:0,
+          currentPage:1
+        }
       };
     },
     components: {
@@ -154,12 +158,13 @@
         let _this = this;
         api.getMyResource({dirId: _this.userSelected.dirId,category: 0,searchName:'',rows: 10,page:pageNo}).then(function (response) {
           _this.resourceLlist = response.rows;
-          _this.resourcePaginator = response.paginator;
+          _this.page.totalCount = response.paginator.totalCount;
         })
       },
       lessonNodeClick(data){
         this.userSelected.dirId = data.id;
-        this.getMyResource(1);
+        this.getMyResource(this.page.currentPage);
+        this.page.currentPage = 1;
       },
       handleCurrentChange(val) {
         this.getMyResource(val);
@@ -171,7 +176,7 @@
       _this.getUserSelectedLesson().then(function () {
         _this.getLessonData();
         _this.getsubjectWithClass();
-        _this.getMyResource(1)
+        _this.getMyResource(_this.page.currentPage)
       });
     },
     updated: function () {
