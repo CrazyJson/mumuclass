@@ -8,7 +8,7 @@ vue.prototype.axios = axios;
 //axios 全局配置
 axios.defaults.timeout = 10000;//超时时间
 axios.defaults.baseURL = '';//接口公共前缀
-let mumutoktn = '1413c52f-0075-44ad-95a9-c311ed6e7cd4';
+let mumutoktn = 'b696a089-6e30-43b4-b3e8-4a51b34e9f58';
 // axios.defaults.headers.common['token'] = 'c11aaa4f-10ad-4b12-8ff3-7234398feefb';//请求头
 
 // 添加请求拦截器
@@ -110,6 +110,12 @@ export default {
   /*获取我的资源*/
   getMyResource(params){
     return fetch('/resource/myResource/findMyResource',params,'post',{
+      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
+    })
+  },
+  /*我的资源-重命名*/
+  renameMyResource(params){
+    return fetch('/resource/myResource/renameFileResource',params,'post',{
       'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
     })
   }

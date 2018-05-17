@@ -28,7 +28,27 @@
           </div>
         </el-aside>
         <el-main>
+          <div class="resource-top">
+            <a href="#" @click="getMyResource(1,0)">全部</a>
+            <a href="#" @click="getMyResource(1,'C002')">教案</a>
+            <a href="#" @click="getMyResource(1,'C003')">课件</a>
+            <a href="#" @click="getMyResource(1,'C009')">学案</a>
+            <a href="#" @click="getMyResource(1,'C006')">试卷</a>
+            <a href="#" @click="getMyResource(1,'C004')">素材</a>
+            <a href="#" @click="getMyResource(1,'C001')">微课</a>
+            <a href="#" @click="getMyResource(1,'C008')">其他</a>
+            <el-input placeholder="请输入关键字搜索" style="width: 180px;"  size="small">
+              <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
+            <el-button type="warning" icon="el-icon-upload" round size="small" class="fr">上传文件</el-button>
+          </div>
           <div class="resource-list" v-show="resourceLlist.length>0">
+            <div class="mult-oper">
+              <el-checkbox v-model="checkAll">全选</el-checkbox>
+              <el-button type="success" icon="el-icon-edit" size="mini"></el-button>
+              <el-button type="success" icon="el-icon-share" size="mini"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+            </div>
             <ul>
               <li v-for="item in resourceLlist">
                 <div class="checkbox-div"><el-checkbox v-model="checked"></el-checkbox></div>
@@ -37,7 +57,6 @@
                   <div class="fluid">
                     <p>
                       <a href="#" class="name">{{item.name}}</a>
-                      <a href="#" class="el-icon-edit oper-rename"></a>
                     </p>
                     <p class="t-grey">
                       <span class="mr30">{{item.categoryName}}</span>
@@ -45,15 +64,12 @@
                       <span class="mr30">{{$formatDate(item.uploadTime,"YYYY-MM-DD")}}</span>
                     </p>
                     <div class="oper">
-                      <a href="#"><i class="el-icon-star-on"></i>取消收藏</a>
-                      <a href="#"><i class="el-icon-share"></i>分享</a>
-                      <a href="#"><i class="el-icon-download"></i>下载</a>
-                      <a href="#"><i class="el-icon-upload2"></i>置顶</a>
-                      <a href="#"><i class="el-icon-setting"></i>移动到</a>
+                      <el-button type="success" icon="el-icon-edit" circle size="mini" @click="renameMyResource({resId:item.id,faId:item.faId,rename:'03月份需求列表11.xls'})"></el-button>
+                      <el-button type="success" icon="el-icon-share" circle size="mini"></el-button>
+                      <el-button type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </div>
                   </div>
                 </div>
-                <a href="#" class=" el-icon-delete oper-del"></a>
               </li>
             </ul>
             <el-pagination
@@ -63,7 +79,7 @@
               :total="page.totalCount">
             </el-pagination>
           </div>
-          <div v-show="resourceLlist.length==0">暂无数据</div>
+          <div v-show="resourceLlist.length==0" class="nodata-search"><img src="./assets/nodata-search.png"></div>
         </el-main>
       </div>
     </div>
@@ -100,6 +116,7 @@
         subjectWithClassData: [],
         isMaterialListShow: false,
         checked: false,
+        checkAll:false,
         resourceLlist:[],
         page:{
           totalCount:0,
@@ -121,6 +138,27 @@
           case 'T002':
             icoType='word';
             break;
+          case 'T003':
+            icoType='video';
+            break;
+          case 'T004':
+            icoType='music';
+            break;
+          case 'T005':
+            icoType='img';
+            break;
+          case 'T007':
+            icoType='pdf';
+            break;
+          case 'T008':
+            icoType='txt';
+            break;
+          case 'T009':
+            icoType='excel';
+            break;
+          case 'T010':
+            icoType='micro';
+            break;
           default:
             icoType='png';
             break;
@@ -140,7 +178,7 @@
           }else{
             _this.userSelected.dirId =first.id;
           }
-           _this.getMyResource(1);
+           _this.getMyResource(1,0);
         });
         this.isMaterialListShow = false;
         this.userSelected.bookId = bookId;
@@ -175,9 +213,9 @@
           _this.subjectWithClassData = response;
         })
       },
-      getMyResource(pageNo){
+      getMyResource(pageNo,category){
         let _this = this;
-        api.getMyResource({dirId: _this.userSelected.dirId,category: 0,searchName:'',rows: 10,page:pageNo}).then(function (response) {
+        api.getMyResource({dirId: _this.userSelected.dirId,category: category,searchName:'',rows: 10,page:pageNo}).then(function (response) {
           _this.resourceLlist = response.rows;
           _this.page.totalCount = response.paginator.totalCount;
           _this.loading= false;
@@ -187,13 +225,18 @@
         this.userSelected.dirId = data.id;
         this.page.currentPage = 1;
         this.loading= true;
-        this.getMyResource(this.page.currentPage);
+        this.getMyResource(this.page.currentPage,0);
 
       },
       handleCurrentChange(val) {
-        this.getMyResource(val);
+        this.getMyResource(val,0);
+      },
+      renameMyResource(params){
+        let _this = this;
+        api.renameMyResource(params).then(function (response) {
+          _this.getMyResource(1,0);
+        })
       }
-
     },
     filters:{
       calcFileSize:function (size) {
@@ -209,7 +252,7 @@
       _this.getUserSelectedLesson().then(function () {
         _this.getLessonData(_this.userSelected.bookId);
         _this.getsubjectWithClass();
-        _this.getMyResource(_this.page.currentPage)
+        _this.getMyResource(_this.page.currentPage,0)
       });
     },
     updated: function () {
@@ -263,6 +306,7 @@
   .el-aside + .el-main {
     width: 100%;
     height: 100%;
+    padding: 0;
     padding-left: 300px;
     overflow: auto;
     background: #f2f2f2;
@@ -344,5 +388,34 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .resource-top{
+    height: 52px;
+    padding: 10px;
+    background: #f5f8f8;
+  }
+  .mult-oper{
+    padding: 10px;
+  }
+  .mult-oper .el-checkbox{
+    margin-right: 10px;
+  }
+  .resource-top>a{
+    display: inline-block;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 12px;
+    color: #666;
+    border-radius: 24px;
+  }
+  .resource-top>a.on{
+    background: #00b4aa;
+    color: #fff;
+  }
+  .nodata-search{
+    padding: 40px;
+    text-align: center;
+    background: #fff;
   }
 </style>

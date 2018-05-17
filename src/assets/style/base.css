@@ -58,7 +58,11 @@ a {
   background-image: url("../icon-nav.png");
   background-repeat: no-repeat;
 }
-
+.fluid {
+  display: table-cell;
+  width: 2000px;
+  word-break: break-all;
+}
 .icon-nav-chengji {
   background-position: -200px 0
 }
@@ -316,7 +320,7 @@ ul, li {
   padding: 10px 20px
 }
 
-.resource-list li {
+.resource-list>ul>li {
   position: relative;
   padding-left: 38px;
   background: rgba(255, 255, 255, .6);
@@ -324,7 +328,7 @@ ul, li {
   border: 1px solid transparent
 }
 
-.resource-list li .checkbox-div {
+.resource-list>ul>li .checkbox-div {
   position: absolute;
   width: 38px;
   height: 100%;
@@ -333,7 +337,7 @@ ul, li {
   border-right: 2px solid #f2f2f2
 }
 
-.resource-list li .checkbox-div label {
+.resource-list>ul>li .checkbox-div label {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -406,14 +410,16 @@ ul, li {
   background: #fff
 }
 
-.resource-list li.on {
+.resource-list>ul>li.on {
   background: #fff
 }
 
-.resource-list li:hover .oper-del {
+.resource-list>ul>li:hover .oper-del {
   display: block
 }
 
 .resource-list .oper-edit:hover {
   opacity: .7
 }
+.fl{float: left;}
+.fr{float: right;}
