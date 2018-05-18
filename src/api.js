@@ -8,7 +8,7 @@ vue.prototype.axios = axios;
 //axios 全局配置
 axios.defaults.timeout = 10000;//超时时间
 axios.defaults.baseURL = '';//接口公共前缀
-let mumutoktn = 'b696a089-6e30-43b4-b3e8-4a51b34e9f58';
+let mumutoktn = 'a2d1ce54-5805-4c0a-b272-c663b71f61eb';
 // axios.defaults.headers.common['token'] = 'c11aaa4f-10ad-4b12-8ff3-7234398feefb';//请求头
 
 // 添加请求拦截器
@@ -118,7 +118,40 @@ export default {
     return fetch('/resource/myResource/renameFileResource',params,'post',{
       'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
     })
+  },
+  /*我的资源-置顶、取消置顶*/
+  topFileResource(params){
+    return fetch('/resource/myResource/topFileResource',params,'post',{
+      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
+    })
+  },
+  /*我的资源-删除*/
+  deleteFileResource(params){
+    return fetch('/resource/myResource/deleteFileResource',params,'post',{
+      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
+    })
+  },
+  /*我的资源-移动到*/
+  moveFileResource(params){
+    return fetch('/resource/myResource/moveFileResource',params,'post',{
+      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
+    })
+  },
+  /*我的资源-取消收藏*/
+  deleteFavorites(params){
+    return fetch('/resource/sharedResource/deleteFavorites',params,'post',{
+      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
+    })
+  },
+  /*我的资源-分享、取消分享*/
+  deleteFavorites(params){
+    return fetch('/resource/myResource/sharedResource',params,'post',{
+      'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
+    })
   }
+
+
+
 }
 
 

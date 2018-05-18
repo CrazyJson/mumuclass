@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a href="#" class="toggle-book-tree ell" @click="toggleMaterialList">{{subjectName}}>{{bookName}} <span class="el-icon-caret-bottom"></span></a>
     <div class="lesson-tree">
       <el-tree
         :data="lessonData"
@@ -11,6 +12,7 @@
         children: 'children',
         label: 'name'}
     "></el-tree>
+      <textbook-tree></textbook-tree>
     </div>
 
   </div>
@@ -18,20 +20,30 @@
 </template>
 
 <script>
+  import textbookTree from 'textbooktree'
   export default {
     name: 'lessontree',
     props:{
 
+    },
+    components: {
+      textbookTree
     },
     data(){
       return {
         bookId:'',
         subjectId:'',
         dirId:'',
-        lessonData:[]
+        subjectName: '',
+        bookName: '',
+        lessonData:[],
+        isMaterialListShow: false
       }
     },
     methods: {
+      toggleMaterialList(){
+        this.isMaterialListShow = this.isMaterialListShow == false;
+      },
       getLessonData(){
         let _this = this;
         api.getLessonList({bookId:_this.bookId}).then(function (response) {
@@ -45,12 +57,19 @@
           }
         })
       },
+      lessonNodeClick(data){
+        this.userSelected.dirId = data.id;
+        this.page.currentPage = 1;
+        this.loading= true;
+        this.getMyResource(this.page.currentPage,0);
+
+      },
     }
   }
 </script>
 
-<style>
-  .lesson-tree,.material-list{
+<style scoped>
+  .lesson-tree{
     position: absolute;
     width: 100%;
     left: 0;
@@ -59,38 +78,5 @@
     overflow: auto;
     background: #fff;
     border-right: 1px solid #dbdbdb;
-  }
-  .material-list{z-index: 10;}
-  .material-list ul p{
-    font-size: 16px;
-    padding-left: 20px;
-    background: #EFEFEF;
-    line-height: 46px;
-    border-bottom: 1px solid #dbdbdb;
-  }
-  .material-list a{
-    display: block;
-    color: #333;
-    padding: 10px 30px;
-    border-bottom: 1px solid #dbdbdb;
-    position: relative;
-  }
-  .material-list a.on{
-    background: #9ee2de;
-  }
-  .material-list a.on:after{
-    content: "\E639";
-    font-family: element-icons!important;
-    speak: none;
-    font-style: normal;
-    font-weight: 400;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    position: absolute;
-    right: 10px;
-    color: #06a298;
-    font-size:24px;
-    top:9px;
   }
 </style>
